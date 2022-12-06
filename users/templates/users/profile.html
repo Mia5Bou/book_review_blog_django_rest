@@ -1,0 +1,58 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+<div class="media">
+  <div>
+    <img class="rounded-circle account-img" src="{{ profile.picture.url }}">
+    <br />
+    {% if user.username == profile.user.username %}
+      <a href="" data-toggle="modal" data-target="#updatePictureForm"><small><u>Change picture</u></small></a>
+    {% endif %}
+  </div>
+  <div class="media-body">
+    <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+    <h4><em>{{ profile.user.username }}</em></h4>
+    <p class="text-secondary">{{ profile.bio }}</p>
+    {% if user.username == profile.user.username %}
+
+    {% if messages %}
+    {% for message in messages %}
+      <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+          <small>{{ message }}</small>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+    <a href="" data-toggle="modal" data-target="#updateProfileForm"><small><u>Update profile</u></small></a>
+    {% endif %}
+  </div>
+</div>
+
+<br />
+<br />
+<br />
+{% if user.username == profile.user.username %}
+<h3>My reviews</h3>
+<a href="" data-toggle="modal" data-target="#postReviewForm"><small><u>Click to post a new review</u></small></a>
+{% else %}
+<h3>{{ profile.first_name }}'s reviews</h3>
+{% endif %}
+<br />
+<br />
+
+{% for review in reviews %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <small class="text-muted">{{ review.date_added }}</small>
+    </div>
+    <div class="user-text-content">
+      <h5><i>{{ review.profile.first_name }}</i> reviewed <a href="/books/book/{{ review.book.id }}/">{{ review.book.title }}</a></h5>
+      <p class="article-content">{{ review.content }}</p>
+    </div>
+  </div>
+</article>
+{% endfor %}
+
+{% endblock content %}

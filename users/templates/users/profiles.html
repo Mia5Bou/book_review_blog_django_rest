@@ -1,0 +1,20 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+<h1  class="page-title">Readers</h1>
+<div class="input-group mb-3">
+    <input id="profile_search_input" name="profile_search_input" type="text" class="form-control" placeholder="Search profile">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" onclick="handleProfileSearch()">Search</button>
+    </div>
+  </div>
+    {% for profile in profiles %}
+    <div class="media content-section">
+        <a href="/users/profile/{{ profile.user.username }}/"><img class="rounded-circle user-image-content" src="{{ profile.picture.url }}"/></a>
+        <div class="media-body user-text-content">
+            <a href="/users/profile/{{ profile.user.username }}/"><h4>{{ profile.user.username }}</h4></a>
+            <h6>{{ profile.user.first_name }} {{ profile.user.last_name }}</h6>
+            <p class="text-secondary">{{ profile.bio }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock content %}

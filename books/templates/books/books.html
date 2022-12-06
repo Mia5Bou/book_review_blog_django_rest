@@ -1,0 +1,31 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+<h1 class="page-title">Books</h1>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <select class="custom-select" id="search_by">
+      <option selected value="all">All</option>
+      <option value="title">Title</option>
+      <option value="summary">Summary</option>
+      <option value="author">Author</option>
+    </select>
+  </div>
+  <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Search...">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" onclick="handleSearch()">Search</button>
+  </div>
+</div>
+{% for book in books %}
+<div class="media content-section book-content-section position-relative">
+  <a href="/books/book/{{ book.id }}/"><img class="mr-3 book-cover-content" src="{{ book.cover.url }}"></a>
+  <div class="media-body">
+    <a href="/books/book/{{ book.id }}/">
+      <h4 class="mt-0">{{ book.title }}</h4>
+    </a>
+    <h6>By <a href="/users/author/{{ book.author.user.username }}/">{{ book.author.pen_name }}</a></h6>
+
+    <p>{{ book.summary|truncatewords:20 }}</p>
+  </div>
+</div>
+{% endfor %}
+{% endblock content %}

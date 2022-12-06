@@ -1,0 +1,24 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+
+  <h1 class="page-title">Latest reviews</h1>
+  <br/>
+  <small><a href="" data-toggle="modal" data-target="#postReviewForm"><u>Click to post a new review</u></a></small>
+  <br/>
+  <br/>
+  {% for review in reviews %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a href="/users/profile/{{ review.profile.user.username }}/"><img class="rounded-circle article-user-img" src="{{ review.profile.picture.url }}"></a>
+          <small class="text-muted"><a class="mr-2" href="/users/profile/{{ review.profile.user.username }}/">{{ review.profile.user.username }}</a></small>
+          <small class="text-muted">{{ review.date_added }}</small>
+        </div>
+        <div class="user-text-content">
+          <h5><i>{{ review.profile.first_name }}</i> reviewed <a href="/books/book/{{ review.book.id }}/">{{ review.book.title }}</a></h5>
+          <p class="article-content">{{ review.content }}</p>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}

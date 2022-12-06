@@ -1,0 +1,19 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+    <h1  class="page-title">Authors</h1>
+    <div class="input-group mb-3">
+        <input id="author_search_input" name="author_search_input" type="text" class="form-control" placeholder="Search author">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" onclick="handleAuthorSearch()">Search</button>
+        </div>
+      </div>      
+    {% for author in authors %}
+    <div class="media content-section">
+        <a href="/users/author/{{ author.user.username }}/"><img class="rounded-circle user-image-content" src="{{ author.picture.url }}"/></a>
+        <div class="media-body user-text-content">
+            <a href="/users/author/{{ author.user.username }}/"><h4>{{ author.pen_name }}</h4></a>
+            <p class="text-secondary">{{ author.bio|truncatewords:20 }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock content %}

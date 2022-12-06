@@ -1,0 +1,24 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ author.picture.url }}">
+        <div class="media-body">
+            <h1>{{ author.pen_name }}</h1>
+            {% if not match_pen_name %}
+                <h4><em>{{ author.user.first_name }} {{ author.user.last_name }}</em></h4>
+            {% endif %}
+            <p class="text-secondary">{{ author.bio }}</p>
+        </div>
+    </div>
+    <br/>
+    <h3>Books</h3>
+    {% for book in books %}
+        <div class="media content-section book-content-section position-relative">
+            <a href="/books/book/{{ book.id }}/"><img class="mr-3 book-cover-content" src="{{ book.cover.url }}"></a>
+            <div class="media-body">
+                <a href="/books/book/{{ book.id }}/"><h4 class="mt-0">{{ book.title }}</h4></a>
+                <p>{{ book.summary|truncatewords:20 }}</p>
+            </div>
+        </div>
+        {% endfor %}
+{% endblock content %}

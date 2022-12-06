@@ -1,0 +1,40 @@
+{% extends "reviews/base.html" %}
+{% load rest_framework %}
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                <small>{{ message }}</small>
+            </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Login</legend>
+
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" name="email" value="{{ email.0 }}" required></input>
+                <br/>
+
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" required></input>
+                <br/>
+
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Login</button>
+            </div>
+
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Don't have an account? <a class="ml-2" href="#">Register</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

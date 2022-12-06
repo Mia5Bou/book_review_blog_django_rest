@@ -1,0 +1,64 @@
+{% extends "reviews/base.html" %}
+{% load rest_framework %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                    <small>{{ message }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Register</legend>
+
+                <label for="first_name">First name</label>
+                <input type="text" class="form-control" name="first_name" value="{{ first_name.0 }}" required></input>
+                <br/>
+
+                <label for="last_name">Last name</label>
+                <input type="text" class="form-control" name="last_name" value="{{ last_name.0 }}" required></input>
+                <br/>
+
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" value="{{ username.0 }}" required></input>
+                <br/>
+
+                <label for="email_field">Email</label>
+                <input type="email" class="form-control" name="email" value="{{ email.0 }}" required></input>
+                <br/>
+
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" required></input>
+                <br/>
+
+                <label for="password2">Password confirmation</label>
+                <input type="password" class="form-control" name="password2" required></input>
+                <br/>
+
+                <label for="picture">Profile image</label>
+                <input type="file" class="form-control-file" name="picture" value="picture.0"></input>
+                <br/>
+
+                <label for="bio">Bio</label>
+                <textarea type="text" class="form-control" name="bio" rows="3"></textarea>
+                <br/>
+
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Next</button>
+            </div>
+
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="#">Login</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

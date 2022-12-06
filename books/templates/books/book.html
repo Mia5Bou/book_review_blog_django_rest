@@ -1,0 +1,31 @@
+{% extends "reviews/base.html" %}
+{% block content %}
+  <div class="media">
+    <img class="mr-3 book-cover" src="{{ book.cover.url }}">
+    <div class="media-body book-text">
+      <h2 class="mt-0">{{ book.title }}</h2>
+      <h5>By <a href="/users/author/{{ book.author.user.username }}/">{{ book.author.pen_name }}</a></h5>
+      <p>{{ book.summary }}</p>
+    </div>
+  </div>
+  <br/>
+<h3>Readers' thoughts on {{ book.title }}</h3>
+<a href="" data-toggle="modal" data-target="#postReviewForm"><small><u>Click to review this book</u></small></a>
+<br/>
+<br/>
+  {% for review in book_reviews %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a href="/users/profiles/{{ review.profile.id }}/"><img class="rounded-circle article-user-img" src="{{ review.profile.picture.url }}"></a>
+            <small class="text-muted"><a class="mr-2" href="/users/profiles/{{ review.profile.id }}/">{{ review.profile.user.username }}</a></small>
+            <small class="text-muted">{{ review.date_added }}</small>
+          </div>
+          <div class="user-text-content">
+            <h5>{{ review.profile.first_name }}'s review</h5>
+            <p class="article-content">{{ review.content }}</p>
+          </div>
+        </div>
+      </article>
+  {% endfor %}
+{% endblock content %}
