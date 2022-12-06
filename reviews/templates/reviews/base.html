@@ -70,7 +70,7 @@
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
             {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="/users/profile/{{ user.username }}">Profile</a>
+            <a class="nav-item nav-link" href="/users/profile/{{ user.username }}">My profile</a>
             <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% else %}
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
@@ -145,18 +145,17 @@
         <div class="modal-body mx-3">
           <div class="md-form mb-5">
             <i class="fas fa-envelope prefix grey-text"></i>
-            <textarea type="text" class="form-control" name="content" rows="3" placeholder="Write a review ..."
-              value="{{ content }}" required></textarea>
-            <br />
-            <select class="form-control" name="book" required>
-              <option value="" style="color: gray;" disabled selected hidden>Choose a book ...</option>
-              {% for b in books %}
-              <option value="{{ b.id }}">{{b.title}} - {{b.author}}</option>
-              {% endfor %}
-            </select>
+            <p>You must be logged in to post a new review</p>
+            <small><u><a href="{% url 'login' %}">Login to my account</a></u></small>
+            <br/>
           </div>
         </div>
-        {% endif %}
+
+        <div class="modal-footer d-flex justify-content-center">
+          <small>Don't have an account?</small>
+          <u><small><a href="{% url 'register' %}">Click here to register</a></small></u>
+        </div>
+    {% endif %}
 
       </div>
     </div>
@@ -164,80 +163,86 @@
 
 
   <div class="modal fade" id="updateProfileForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Update profile information</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="modal-body mx-3">
-          <div class="md-form mb-5">
-            <i class="fas fa-envelope prefix grey-text"></i>
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100">Update profile information</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-body mx-3">
+            <div class="md-form mb-5">
+              <i class="fas fa-envelope prefix grey-text"></i>
 
-            <label for="first_name">First name</label>
-            <input type="text" class="form-control" name="first_name" value="{{ profile.first_name }}" required></input>
-            <br/>
+              <label for="first_name">First name</label>
+              <input type="text" class="form-control" name="first_name" value="{{ profile.first_name }}"
+                required></input>
+              <br />
 
-            <label for="last_name">Last name</label>
-            <input type="text" class="form-control" name="last_name" value="{{ profile.last_name }}" required></input>
-            <br/>
+              <label for="last_name">Last name</label>
+              <input type="text" class="form-control" name="last_name" value="{{ profile.last_name }}" required></input>
+              <br />
 
-            <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" value="{{ profile.user.username }}" required></input>
-            <br/>
+              <label for="username">Username</label>
+              <input type="text" class="form-control" name="username" value="{{ profile.user.username }}"
+                required></input>
+              <br />
 
-            <label for="email_field">Email</label>
-            <input type="email" class="form-control" name="email" value="{{ profile.user.email }}" required></input>
+              <label for="email_field">Email</label>
+              <input type="email" class="form-control" name="email" value="{{ profile.user.email }}" required></input>
+              <br />
 
+              <label for="bio">Bio</label>
+              <textarea type="text" class="form-control" name="bio" rows="3">{{ profile.bio }}</textarea>
+
+            </div>
           </div>
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <button class="btn btn-outline-info" type="submit">Save changes</button>
-        </div>
-      </form>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-outline-info" type="submit">Save changes</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="modal fade" id="updatePictureForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header text-center">
-      <h4 class="modal-title w-100">Change profile picture</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
+  <div class="modal fade" id="updatePictureForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100">Change profile picture</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
               <i class="fas fa-envelope prefix grey-text"></i>
 
               <label for="picture">Upload a new profile picture</label>
               <input type="file" class="form-control-file" name="picture"></input>
-              <br/>
+              <br />
 
               <button class="btn btn-outline-info" type="submit">Save changes</button>
-          </form>
-          <hr>    
-          <form method="POST" class="inline">
-            {% csrf_token %}
-            <input type="hidden" name="delete_picture" value="">
-            <button type="submit" class="btn btn-outline-danger">Delete my current profile picture</button>
-          </form>
+            </form>
+            <hr>
+            <form method="POST" class="inline">
+              {% csrf_token %}
+              <input type="hidden" name="delete_picture" value="">
+              <button type="submit" class="btn btn-outline-danger">Delete my current profile picture</button>
+            </form>
+          </div>
         </div>
-      </div>
 
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
 
 </body>

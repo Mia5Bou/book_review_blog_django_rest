@@ -58,11 +58,10 @@ class ProfileDetail(APIView):
                         elif error.code == 'blank':
                             messages.error(request, f"The field '{field}' is required")
                         else:
-                            # AN ERROR HAS OCCURED (WITH A REDIRECT)
-                            # return redirect()
-                            print(user_serializer.errors)
+                            messages.error(request, f"An error has occured")
                 return Response({'profile' : profile, 'reviews' : reviews, 'books' : books}, request.data, status=status.HTTP_400_BAD_REQUEST)
 
+            print(f"REQUEST DATA : {request.data} ")
             profile_serializer = ProfileInfoUpdateSerializer(profile, data=request.data)
             if not profile_serializer.is_valid():
                 return Response({'profile' : profile, 'reviews' : reviews, 'books' : books}, request.data, status=status.HTTP_400_BAD_REQUEST)

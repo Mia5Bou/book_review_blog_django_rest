@@ -1,6 +1,16 @@
 {% extends "reviews/base.html" %}
 {% block content %}
 
+{% if messages %}
+{% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+            <small>{{ message }}</small>
+        </div>
+    </div>
+{% endfor %}
+{% endif %}
+
   <h1 class="page-title">Latest reviews</h1>
   <br/>
   <small><a href="" data-toggle="modal" data-target="#postReviewForm"><u>Click to post a new review</u></a></small>

@@ -11,3 +11,6 @@ class Book(models.Model):
     author  = models.ForeignKey(Author, on_delete=models.CASCADE, blank=True, null=True)
     summary = models.TextField()
     cover   = models.ImageField(default='default_book_cover.png', upload_to='book_cover_images')
+
+    def __str__(self):
+        return self.title

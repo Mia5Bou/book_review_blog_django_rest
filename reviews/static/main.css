@@ -1,0 +1,136 @@
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+
+  a:link, a:visited, a:hover, a:active {
+    color : #f0227b;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  ul {
+    margin: 0;
+  }
+  
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+
+  .book-cover-content {
+    height: 127px;
+    width: 86px;
+  }
+
+  .book-content-section {
+    padding : 20px;
+  }
+
+  .link-title {
+    color : black;
+  }
+
+  .user-image-content {
+    height : 100px;
+    width : 100px;
+    padding : 10px;
+  }
+
+  .user-text-content {
+    padding : 10px;
+  }
+
+  .article-user-img {
+    height : 25px;
+    width : 25px;
+  }
+
+  .navbar-color {
+    background-color : #870b41;
+  }
+
+  .book-cover {
+    height : 254px;
+    width : 172px;
+    padding : 10px;
+  }
+
+  .book-text {
+    padding : 10px;
+  }
+
+  .page-title {
+    padding-top : 10px;
+    padding-bottom : 10px;
+    font-family : 'Lucida Handwriting';
+  }

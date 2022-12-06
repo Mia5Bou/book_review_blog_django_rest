@@ -45,7 +45,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class ProfileInfoUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'bio']
 
 
 class UserInfoUpdateSerializer(serializers.ModelSerializer):
@@ -58,47 +58,3 @@ class ProfilePictureUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['picture']
-
-
-
-# class ProfileRegisterFormSerializer(serializers.Serializer):
-#     username = serializers.CharField(
-#         max_length=50,
-#         allow_blank=False,
-#         required=True,
-#     )
-#     email = serializers.EmailField(
-#         max_length=100,
-#         allow_blank=True,
-#         required=True,
-#     )
-#     password = serializers.CharField(
-#         max_length=100,
-#         style={'input_type': 'password'},
-#         allow_blank=True,
-#         required=False,
-#     )
-#     first_name = serializers.CharField(
-#         max_length=100,
-#         allow_blank=True,
-#         required=False,
-#     )
-#     last_name = serializers.CharField(
-#         max_length=100,
-#         required=False,
-#         allow_blank=True,
-#     )
-#     picture = serializers.ImageField(
-#         use_url=True,
-#         # max_length=None,
-#         required=False,
-#         # default = None,
-#         # allow_empty_file=True,
-#         default='default_user.jpg',
-#         # default='',
-#     )
-#     bio = serializers.CharField(
-#         allow_blank=True,
-#         style={'base_template': 'textarea.html'},
-#         required=False,
-#     )

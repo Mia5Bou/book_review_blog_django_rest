@@ -51,3 +51,6 @@ class Author(models.Model):
     pen_name      = models.CharField(max_length=100)
     picture       = models.ImageField(default='default_user.jpg', upload_to='profile_pics')
     bio           = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.pen_name
