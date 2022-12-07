@@ -50,7 +50,6 @@
         window.location.href = '/users/profiles/?search=' + keyword
       }
     }
-
   </script>
 </head>
 
@@ -244,7 +243,73 @@
     </div>
   </div>
 
+  <div class="modal fade" id="updateReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Update review</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <div class="md-form mb-5">
+              <i class="fas fa-envelope prefix grey-text"></i>
+              <input type="hidden" name="update-review-content" value=""></input>
+              <input type="hidden" id="review-id" name="id"></input>
+              <textarea type="text" class="form-control" name="content" id="review-content" rows="3" placeholder="Write a review ..." required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-outline-info" type="submit">Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#updateReview').on('show.bs.modal', function(e) {
+        var content = $(e.relatedTarget).data('review-content');
+        $("#review-content").val(content);
+        var id = $(e.relatedTarget).data('review-id');
+        $("#review-id").val(id)
+    });
+  </script>
+
+  <div class="modal fade" id="confirmReviewDeletion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Confirm choice</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <div class="md-form mb-5">
+              <i class="fas fa-envelope prefix grey-text"></i>
+              <input type="hidden" name="delete-review" value=""></input>
+              <input type="hidden" id="delete-review-id" name="id"></input>
+              <p>Are you sure you want to delete your review? This action cannot be undone.</p>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-outline-danger" type="submit">Delete review</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#confirmReviewDeletion').on('show.bs.modal', function(e) {
+        var id = $(e.relatedTarget).data('review-id');
+        $("#delete-review-id").val(id)
+    });
+  </script>
 
 </body>
-
 </html>

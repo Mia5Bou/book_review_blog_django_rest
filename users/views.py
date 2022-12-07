@@ -45,8 +45,6 @@ class ProfileDetail(APIView):
 
     def post(self, request, username):
         profile = self.get_object(username)
-        reviews = Review.objects.filter(profile=profile).order_by('-date_added')
-        books = Book.objects.all().order_by('title')
 
         if all(key in request.data for key in ['first_name', 'last_name', 'username', 'email']):
             user_serializer = UserInfoUpdateSerializer(profile.user, data=request.data)
@@ -59,17 +57,17 @@ class ProfileDetail(APIView):
                             messages.error(request, f"The field '{field}' is required")
                         else:
                             messages.error(request, f"An error has occured")
-                return Response({'profile' : profile, 'reviews' : reviews, 'books' : books}, request.data, status=status.HTTP_400_BAD_REQUEST)
 
-            print(f"REQUEST DATA : {request.data} ")
+                return redirect(f"/users/profile/{username}")
+
             profile_serializer = ProfileInfoUpdateSerializer(profile, data=request.data)
             if not profile_serializer.is_valid():
-                return Response({'profile' : profile, 'reviews' : reviews, 'books' : books}, request.data, status=status.HTTP_400_BAD_REQUEST)
+                messages.error(request, f"An error has occured")
+                return redirect(f"/users/profile/{username}")
 
             user_serializer.save()
             profile_serializer.save()
-            print(user_serializer.data['username'])
-            return redirect(f"/users/profile/{user_serializer.data['username']}")
+            messages.info(request, f"Profile updated successfully")
 
         elif all(key in request.data for key in ['content', 'book']):
             # Posting a new review
@@ -81,7 +79,7 @@ class ProfileDetail(APIView):
             serializer = ReviewSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                return redirect(f"/users/profile/{username}")
+                messages.info(request, f"Review added successfully")
         
         elif 'picture' in request.data:
             # Modifying the profile picture
@@ -90,16 +88,33 @@ class ProfileDetail(APIView):
                 if serializer.is_valid():
                     profile.picture.delete(save=True)
                     serializer.save()
-                    return redirect(f"/users/profile/{username}")
+                    messages.info(request, f"Profile picture updated successfully")
 
         elif 'delete_picture' in request.data:
             # Deleting the profile picture
             profile.picture.delete(save=True)
             profile.picture = Profile._meta.get_field('picture').get_default()
             profile.save()
-            return redirect(f"/users/profile/{username}")
+            messages.info(request, f"Profile picture deleted successfully")
 
-        return Response({'profile' : profile, 'reviews' : reviews, 'books' : books}, status=status.HTTP_400_BAD_REQUEST)
+        elif 'update-review-content' in request.data:
+            review = Review.objects.get(pk=request.data['id'])
+            serializer = ReviewSerializer(review, data=request.data, partial=True)
+
+            if not serializer.is_valid():
+                messages.error(request, f"An error has occured")
+                return redirect('reviews-view')
+
+            serializer.save()
+            messages.info(request, f"Review updated succesfully")
+
+        elif 'delete-review' in request.data:
+            review = Review.objects.get(pk=request.data['id'])
+            review.delete()
+            messages.info(request, f"Review deleted succesfully")
+
+        return redirect(f"/users/profile/{username}")
+
 
     def put(self, request, username):
         profile = self.get_object(username)

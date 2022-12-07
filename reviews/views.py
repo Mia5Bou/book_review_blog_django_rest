@@ -2,6 +2,7 @@ from .models import Review
 from .serializers import ReviewSerializer
 from books.models import Book
 from users.models import Profile, UserData
+from django.contrib import messages
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
@@ -19,47 +20,38 @@ class ReviewView(APIView):
         return Response({'reviews' : reviews, 'books' : books}, status=status.HTTP_200_OK)
 
     def post(self, request):
-        profile = Profile.objects.get(user=UserData.objects.get(username=request.user))
-        data = {
-            'content' : request.data['content'],
-            'book'    : request.data['book'],
-            'profile' : profile.id,
-        }
-        serializer = ReviewSerializer(data=data)
-        if serializer.is_valid():
+        if 'update-review-content' in request.data:
+            review = Review.objects.get(pk=request.data['id'])
+            serializer = ReviewSerializer(review, data=request.data, partial=True)
+
+            if not serializer.is_valid():
+                messages.error(request, f"An error has occured")
+                return redirect('reviews-view')
+
             serializer.save()
-            return redirect('reviews-view')
+            messages.info(request, f"Review updated succesfully")
 
-        reviews = Review.objects.all().order_by('-date_added')
-        books = Book.objects.all().order_by('title')
-        return Response({'errors' : serializer.errors, 'reviews' : reviews, 'books' : books, 'content' : data['content']}, status=status.HTTP_400_BAD_REQUEST)
+        elif 'delete-review' in request.data:
+            review = Review.objects.get(pk=request.data['id'])
+            review.delete()
+            messages.info(request, f"Review deleted succesfully")
 
+        else:
+            profile = Profile.objects.get(user=UserData.objects.get(username=request.user))
+            data = {
+                'content' : request.data['content'],
+                'book'    : request.data['book'],
+                'profile' : profile.id,
+            }
+            serializer = ReviewSerializer(data=data)
+            if not serializer.is_valid():
+                messages.error(request, f"An error has occured")
+                return redirect('reviews-view')
 
-class ReviewDetail(APIView):
-    pass
-    # def get_object(self, pk):
-    #     try:
-    #         return Review.objects.get(pk=pk)
-    #     except:
-    #         raise Http404
+            serializer.save()
+            messages.info(request, f"Review added succesfully")
 
-    # def get(self, request, pk, format=None):
-    #     review = self.get_object(pk=pk)
-    #     serializer = ReviewSerializer(review)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-
-    # def put(self, request, pk, format=None):
-    #     review = self.get_object(pk=pk)
-    #     serializer = ReviewSerializer(review, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_200_OK)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # def delete(self, request, pk, format=None):
-    #     review = self.get_object(pk=pk)
-    #     review.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+        return redirect('reviews-view')
 
 
 class AboutView(APIView):

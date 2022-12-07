@@ -23,6 +23,12 @@
           <a href="/users/profile/{{ review.profile.user.username }}/"><img class="rounded-circle article-user-img" src="{{ review.profile.picture.url }}"></a>
           <small class="text-muted"><a class="mr-2" href="/users/profile/{{ review.profile.user.username }}/">{{ review.profile.user.username }}</a></small>
           <small class="text-muted">{{ review.date_added }}</small>
+          {% if user == review.profile.user %}
+          <div style="float : right;">
+            <a href="" data-toggle="modal" data-target="#updateReview" data-review-content="{{ review.content }}" data-review-id="{{ review.id }}"><img class="icon" src="https://img.icons8.com/ios-filled/50/null/pencil--v1.png"/></a>
+            <a href="" data-toggle="modal" data-target="#confirmReviewDeletion" data-review-id="{{ review.id }}"><img class="icon" src="https://img.icons8.com/ios-glyphs/30/null/delete-forever.png"/></a>
+          </div>
+          {% endif %}
         </div>
         <div class="user-text-content">
           <h5><i>{{ review.profile.first_name }}</i> reviewed <a href="/books/book/{{ review.book.id }}/">{{ review.book.title }}</a></h5>

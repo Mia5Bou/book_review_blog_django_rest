@@ -1,5 +1,16 @@
 {% extends "reviews/base.html" %}
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+  <div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <small>{{ message }}</small>
+    </div>
+  </div>
+{% endfor %}
+{% endif %}
+
 <div class="media">
   <div>
     <img class="rounded-circle account-img" src="{{ profile.picture.url }}">
@@ -13,17 +24,6 @@
     <h4><em>{{ profile.user.username }}</em></h4>
     <p class="text-secondary">{{ profile.bio }}</p>
     {% if user.username == profile.user.username %}
-
-    {% if messages %}
-    {% for message in messages %}
-      <div class="container-fluid p-0">
-        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-          <small>{{ message }}</small>
-        </div>
-      </div>
-    {% endfor %}
-  {% endif %}
-
     <a href="" data-toggle="modal" data-target="#updateProfileForm"><small><u>Update profile</u></small></a>
     {% endif %}
   </div>
@@ -34,10 +34,10 @@
 <br />
 
 {% if user.username == profile.user.username %}
-<h3>My reviews</h3>
-<a href="" data-toggle="modal" data-target="#postReviewForm"><small><u>Click to post a new review</u></small></a>
+  <h3>My reviews</h3>
+  <a href="" data-toggle="modal" data-target="#postReviewForm"><small><u>Click to post a new review</u></small></a>
 {% else %}
-<h3>{{ profile.first_name }}'s reviews</h3>
+  <h3>{{ profile.first_name }}'s reviews</h3>
 {% endif %}
 <br />
 <br />
@@ -47,6 +47,10 @@
   <div class="media-body">
     <div class="article-metadata">
       <small class="text-muted">{{ review.date_added }}</small>
+      <div style="float : right;">
+        <a href="" data-toggle="modal" data-target="#updateReview" data-review-content="{{ review.content }}" data-review-id="{{ review.id }}"><img class="icon" src="https://img.icons8.com/ios-filled/50/null/pencil--v1.png"/></a>
+        <a href="" data-toggle="modal" data-target="#confirmReviewDeletion" data-review-id="{{ review.id }}"><img class="icon" src="https://img.icons8.com/ios-glyphs/30/null/delete-forever.png"/></a>
+      </div>
     </div>
     <div class="user-text-content">
       <h5><i>{{ review.profile.first_name }}</i> reviewed <a href="/books/book/{{ review.book.id }}/">{{ review.book.title }}</a></h5>
